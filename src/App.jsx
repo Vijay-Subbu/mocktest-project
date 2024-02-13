@@ -3,6 +3,8 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginForm from './LoginPage/LoginForm';
 import RegisterForm from './RegisterPage/RegisterForm';
+import Dashboard from './DashboardPage/Dashboard';
+import MocktestDetails from './MockTest/MocktestDetails';
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
       <Routes>
       <Route path="/" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/mock-test/:id" element={<MocktestDetails />} />
       </Routes>
       </div>
   </Router>
