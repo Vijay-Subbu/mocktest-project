@@ -62,3 +62,6 @@
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.dropdown-content button{
+  button-type:primary;
+}

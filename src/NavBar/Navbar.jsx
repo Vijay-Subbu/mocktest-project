@@ -1,8 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Navbar.css'; 
 
-const Navbar = () => {
+const Navbar = () => {  
+  const navigate = useNavigate();   
+
+  const handleLogout = () => {
+    navigate('/');
+  };
   return (
     <nav className="navbar">
       <ul className="navbar-menu">
@@ -23,7 +28,8 @@ const Navbar = () => {
           <div className="dropdown-content">
             <Link to="/dashboard/profile">Profile</Link>
             <Link to="/dashboard/settings">Settings</Link>
-            <button>Logout</button>
+            <Link to="/" onClick={handleLogout}><button>Logout</button></Link>
+            
           </div>
         </li>
       </ul>

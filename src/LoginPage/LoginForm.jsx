@@ -1,10 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'; import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
 import './LoginStyle.css'; 
 
 const LoginForm = () => {
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const response = await axios.post('https://84647cba-f971-41da-8bed-a90d774bac9b-00-kozq80yd89n5.sisko.replit.dev/api/login', values);
+      const data = response.data;
+      if (response.status >= 200 && response.status < 300) {
+        // Successful login, redirect to dashboard
+        navigate('/dashboard');
+      } else {
+        setError(data.message || 'Failed to login');
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      setError('Failed to login');
+    }
+    setSubmitting(false);
+  };
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -18,12 +38,7 @@ const LoginForm = () => {
             .required('Required')
             .min(6, 'Password must be at least 6 characters'),
         })}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
+        onSubmit={handleSubmit}
       >
         <Form>
           <div className="form-control">
@@ -36,6 +51,7 @@ const LoginForm = () => {
             <Field type="password" name="password" />
             <ErrorMessage name="password" component="div" className="error" />
           </div>
+          {error && <div className="error">{error}</div>}
           <button type="submit">Login</button>
         </Form>
       </Formik>

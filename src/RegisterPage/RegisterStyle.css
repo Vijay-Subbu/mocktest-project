@@ -53,3 +53,7 @@ button[type='submit']:hover {
 .link:hover {
   text-decoration: underline;
 }
+.alert {
+  text-align: center;
+  color: limegreen
+}
