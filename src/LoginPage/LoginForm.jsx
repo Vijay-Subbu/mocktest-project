@@ -14,7 +14,7 @@ const LoginForm = () => {
       const data = response.data;
       if (response.status >= 200 && response.status < 300) {
         // Successful login, redirect to dashboard
-        navigate('/dashboard');
+        navigate('/home');
       } else {
         setError(data.message || 'Failed to login');
       }

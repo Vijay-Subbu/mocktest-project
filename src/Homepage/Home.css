@@ -1,0 +1,19 @@
+.welcome-message{
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  /* /* padding: 20px; */
+  margin: 20px; */
+}
+.p{
+  font-size: 30px;
+  text-align:center;
+}
+
+.fact {
+  margin-bottom: 10px;
+  font-family: italic;
+  font-size:20px;
+}
+.mark{
+  font-family:bold;
+}

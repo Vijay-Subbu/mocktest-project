@@ -7,10 +7,6 @@
   padding: 10px 30px;
 }
 
-.navbar-logo img {
-  width: 20px;
-}
-
 .navbar-menu {
   list-style-type: none;
   display: flex;

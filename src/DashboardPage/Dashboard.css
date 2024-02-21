@@ -6,5 +6,11 @@
 h1{
   text-align:center;
 }
-
+.mock-test-cards-container{
+  display:flex;
+  gap: 50px;
+  margin-left: 30px;
+}
+.mock-test-card{
+}
 
