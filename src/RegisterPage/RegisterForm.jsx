@@ -13,7 +13,7 @@ const RegisterForm = () => {
   useEffect(() => {
     if (isRegistered) {
       const redirectTimer = setTimeout(() => {
-        navigate('/');
+        navigate('/login');
       }, 2000);
       return () => clearTimeout(redirectTimer);
     }
@@ -74,7 +74,7 @@ const RegisterForm = () => {
         </Form>
       </Formik>
       <p>
-        Already have an account? <Link to="/">Login here</Link>
+        Already have an account? <Link to="/login">Login here</Link>
       </p>
     </div>
     </div>  

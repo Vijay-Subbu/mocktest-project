@@ -10,6 +10,8 @@ import TestInstructionPage from './TestPage/TestInstructionPage';
 import Home from './Homepage/Home';
 import Profile from './ProfileCard/Profile';
 import Security from './ProfileCard/Security';
+import ForgotPassword from './ForgotPassword/ForgotPassword';  
+import ResetPassword from './ResetPassword/ResetPassword';
 
 const App = () => {
   return (
@@ -20,8 +22,10 @@ const App = () => {
           <h4>One stop solution for all your NEET preparations</h4>
         </main> 
       <Routes>
-      <Route path="/" element={<LoginForm />} />
+      <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/home" element={<Home />} />
         <Route path="/mocktests" element={<Dashboard />} />
         {/* <Route path="/mock-test/:id" element={<MocktestDetails />} /> */}

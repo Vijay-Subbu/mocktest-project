@@ -57,6 +57,8 @@ const LoginForm = () => {
       </Formik>
       <p>
         Don't have an account? <Link to="/register">Register here</Link>
+      <br/>
+      <Link to="/forgot-password">Forgot Password!</Link>
       </p>
     </div>
   );
