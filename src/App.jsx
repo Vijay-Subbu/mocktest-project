@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import LoginForm from './LoginPage/LoginForm';
 import RegisterForm from './RegisterPage/RegisterForm';
 import Dashboard from './DashboardPage/Dashboard';
@@ -15,28 +15,42 @@ import ResetPassword from './ResetPassword/ResetPassword';
 
 const App = () => {
   return (
-    <Router>
-      <div>
+    <Routes>
+      {/* <div>
         <main>
           <h1>⚡ Neet Prep ⚡ </h1> 
           <h4>One stop solution for all your NEET preparations</h4>
-        </main> 
-      <Routes>
+        </main>  */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoutes>
+            <Home />
+          </ProtectedRoutes>
+        }
+      />
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
-        <Route path="/home" element={<Home />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/mocktests" element={<Dashboard />} />
         {/* <Route path="/mock-test/:id" element={<MocktestDetails />} /> */}
         <Route path="/testpage" element={<TestPage />} />
         <Route path="/testinstructionpage" element={<TestInstructionPage />} />
         <Route path="/home/profile" element={<Profile />} />
         <Route path="/home/profile/security" element={<Security />} />
-      </Routes>
-      </div>
-  </Router>
+      
+      {/* </div> */}
+  </Routes>
   );
 };
+export function ProtectedRoutes(props) {
+  if (localStorage.getItem("user")) {
+    return props.children;
+  } else {
+    return <Navigate to="/login" />;
+  }
+}
 
 export default App;

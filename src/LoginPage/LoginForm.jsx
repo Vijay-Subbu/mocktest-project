@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'; import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -13,8 +13,11 @@ const LoginForm = () => {
       const response = await axios.post('https://84647cba-f971-41da-8bed-a90d774bac9b-00-kozq80yd89n5.sisko.replit.dev/api/login', values);
       const data = response.data;
       if (response.status >= 200 && response.status < 300) {
-        // Successful login, redirect to dashboard
-        navigate('/home');
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...data.user, password: "" })
+        );
+        navigate('/');
       } else {
         setError(data.message || 'Failed to login');
       }
@@ -24,6 +27,11 @@ const LoginForm = () => {
     }
     setSubmitting(false);
   };
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return (
     <div className="login-container">

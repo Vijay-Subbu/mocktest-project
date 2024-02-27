@@ -7,6 +7,11 @@ const TestPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0); 
   const [selectedOption, setSelectedOption] = useState(null); 
   const [showTestSummary, setShowTestSummary] = useState(false);
+  // const [startTime, setStartTime] = useState(null);
+  // const [totalTimeTaken, setTotalTimeTaken] = useState(0);
+  const [hours, setHours] = useState(2);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   // Function to fetch questions from the API
   const fetchQuestions = async () => {
@@ -22,40 +27,72 @@ const TestPage = () => {
     setCurrentQuestion(prev => prev + 1);
     setSelectedOption(null); 
   };
+
   const previousQuestion = () => {
     setCurrentQuestion(prev => prev - 1);
     setSelectedOption(null); 
   };
+
   const selectOption = (option) => {
     setSelectedOption(option);
     const updatedQuestions = [...questions];
     updatedQuestions[currentQuestion].selectedOption = option;
     setQuestions(updatedQuestions);
   };
+
+  
+
   const finishTest = () => {
     setShowTestSummary(true);
+    // const endTime = Date.now();
+    // const timeTaken = endTime - startTime; 
+    // setTotalTimeTaken(timeTaken);
+    // console.log("Total time taken:", totalTimeTaken);
   };
 
   // Function to calculate the total score
   const calculateScore = () => {
-    let correctAnswers = 0;
-    let wrongAnswers = 0;
-
+    let totalMarks = 0;
     questions.forEach((question) => {
-      if (question.selectedOption === question.correctOption) {
-        correctAnswers += 3;
-      } else {
-        wrongAnswers -= 1;
+      if (question.selectedOption === question.correctAnswer) {
+        totalMarks += 3;
+      } else if (question.selectedOption) {
+        totalMarks -= 1;
       }
     });
-
-    return { correctAnswers, wrongAnswers };
+    return totalMarks;
   };
+  // Timer Logic
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (hours === 0 && minutes === 0 && seconds === 0) {
+        clearInterval(timer);
+        setShowTestSummary(true); 
+      } else {
+        if (seconds === 0) {
+          if (minutes === 0) {
+            setHours(prev => prev - 1);
+            setMinutes(59);
+            setSeconds(59);
+          } else {
+            setMinutes(prev => prev - 1);
+            setSeconds(59);
+          }
+        } else {
+          setSeconds(prev => prev - 1);
+        }
+      }
+    }, 1000);
 
+    return () => clearInterval(timer);
+  }, [hours, minutes, seconds]);
+  
+  
   // Fetch questions when the component mounts
   useEffect(() => {
     fetchQuestions();
   }, []);
+
 
   // JSX for the test summary
   const testSummaryJSX = (
@@ -68,26 +105,35 @@ const TestPage = () => {
             <td>{questions.length}</td>
           </tr>
           <tr>
-            <td>Answered Questions:</td>
+            <td>Attempted Questions:</td>
             <td>{questions.filter(question => question.selectedOption).length}</td>
           </tr>
           <tr>
             <td>Correct Answers:</td>
-            <td>{calculateScore().correctAnswers}</td>
+            <td>{questions.filter(question => question.selectedOption && question.selectedOption == question.correctAnswer).length}</td>
           </tr>
           <tr>
             <td>Wrong Answers:</td>
-            <td>{calculateScore().wrongAnswers}</td>
+            <td>{questions.filter(question => question.selectedOption && question.selectedOption !== question.correctAnswer).length}</td>
+          </tr>
+          <tr>
+            <td>Total Marks:</td>
+            <td>{calculateScore()}</td>
           </tr>
         </tbody>
       </table>
+      <p>*Marks for correct Answers is +3 & wrong answers is -1</p>
     </div>
+    
   );
 
   return (
     <div className="test-page">
       {!showTestSummary && (
         <>
+          <div className="timer">
+            <h3>Time Remaining: {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}</h3>
+          </div>
           {questions.length > 0 && (
             <div className="question-container">
               <h3>Question : {questions[currentQuestion].question} </h3>
@@ -98,19 +144,31 @@ const TestPage = () => {
               <div className="options">
                 <table>
                   <tbody>
-                    {questions[currentQuestion].options.map((option, index) => (
-                      <tr key={index}>
-                        <td>
-                          <input
-                            type="radio"
-                            id={`option${index}`}
-                            name="options"
-                            value={option}
-                            checked={selectedOption === option}
-                            onChange={() => selectOption(option)}
-                          />
-                          <label htmlFor={`option${index}`}>{option}</label>
-                        </td>
+                    {[0, 1].map(rowIndex => (
+                      <tr key={rowIndex}>
+                        {[0, 1].map(columnIndex => {
+                          const index = rowIndex * 2 + columnIndex;
+                          if (index < questions[currentQuestion].options.length) {
+                            const option = questions[currentQuestion].options[index];
+                            return (
+                              <td key={index}>
+                                <label className="radio-label" htmlFor={`option${index}`}>
+                                  <input
+                                    type="radio"
+                                    id={`option${index}`}
+                                    name="options"
+                                    value={option}
+                                    checked={selectedOption === option}
+                                    onChange={() => selectOption(option)}
+                                  />
+                                  {option}
+                                </label>
+                              </td>
+                            );
+                          } else {
+                            return <td key={index}></td>; 
+                          }
+                        })}
                       </tr>
                     ))}
                   </tbody>
@@ -121,7 +179,7 @@ const TestPage = () => {
           <div className="navigation-buttons">
             {currentQuestion > 0 && <button onClick={previousQuestion}>Previous</button>}
             {currentQuestion < questions.length - 1 && <button onClick={nextQuestion}>Next</button>}
-            {currentQuestion === questions.length - 1 && <button onClick={finishTest}>Finish Test</button>}
+            {currentQuestion === questions.length - 1 && <button onClick={finishTest} className="finish-button">Finish Test</button>}
           </div>
         </>
       )}

@@ -6,16 +6,16 @@ const Navbar = () => {
   const navigate = useNavigate();   
 
   const handleLogout = () => {
-    navigate('/');
+    navigate('/login');
   };
   return (
     <nav className="navbar">
       <ul className="navbar-menu">
         <li className="navbar-menu-item">
-          <Link to="/home">Home</Link>
+          <Link to="/">Home</Link>
         </li>
         <li className="navbar-menu-item">
-          <Link to="/about">About Us</Link>
+          <Link to="/about-us">About Us</Link>
         </li>
         <li className="navbar-menu-item">
           <Link to="/mocktests">Mock Tests</Link>

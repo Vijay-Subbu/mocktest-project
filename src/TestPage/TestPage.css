@@ -28,18 +28,30 @@
 
 .options table {
   margin: 0 auto;
+  border-collapse:collapse;
 }
 
 .options table tr td {
   padding: 5px 10px;
+  border:1px solid #ccc;
+  text-align:left;
+  width:10%;
 }
 
 .options input[type="radio"] {
   margin-right: 5px;
+  vertical-align:middle;
 }
+  .radio-label{
+    display:flex;
+    align-items:center;
+  }
+
 
 .navigation-buttons {
   margin-top: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .navigation-buttons button {
@@ -53,13 +65,57 @@
   margin-right: 10px;
 }
 
+.navigation-buttons button:last-child {
+  margin-right: 0;
+}
+
 .navigation-buttons button:hover {
   background-color: #45a049;
 }
 
 .navigation-buttons button:last-child {
-  margin-right: 0;
+  background-color: red;
 }
+.test-summary {
+  margin-top: 20px;
+}
+
+.test-summary h2 {
+  text-align: center;
+}
+
+.test-summary table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.test-summary th, .test-summary td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.test-summary th {
+  background-color: #f2f2f2;
+}
+
+.test-summary tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.test-summary tbody tr:hover {
+  background-color: #ddd;
+}
+
+.test-summary tfoot td {
+  font-weight: bold;
+}
+
+.test-summary tfoot tr:last-child td {
+  border-top: 2px solid #ddd;
+}
+
+
 .instruction-page{
   text-align:left;
   font-size:20px;

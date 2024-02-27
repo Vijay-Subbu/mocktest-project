@@ -15,7 +15,7 @@ const MockTestCard = () => {
       </div>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">Time Duration: 2hrs</li>
-          <li className="list-group-item">No. of Questions:20</li>
+          <li className="list-group-item">No. of Questions:100</li>
           <li className="list-group-item">Subjects: Physics, Chemistry, Biology</li>
         </ul>
         <div className="card-body">     
